@@ -21,8 +21,9 @@ print("MINTS")
 print()
 
 
-startDate = mintsDefinitions['startDate']
-endDate   = mintsDefinitions['endDate']
+resampleTime = mintsDefinitions['resampleTime']
+startDate    = mintsDefinitions['startDate']
+endDate      = mintsDefinitions['endDate']
 
 start_time_df = datetime.strptime(mintsDefinitions['startDate'], '%Y_%m_%d')
 end_time_df   = datetime.strptime(mintsDefinitions['endDate'], '%Y_%m_%d')+ timedelta(days=1)
