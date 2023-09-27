@@ -31,14 +31,14 @@ print()
 print("MINTS")
 print()
 
-resampleTime = mintsDefinitions['resampleTime']
-startDate    = mintsDefinitions['startDate']
-endDate      = mintsDefinitions['endDate']
+resampleTime  = mintsDefinitions['resampleTime']
+startTime     = mintsDefinitions['startTime']
+endTime       = mintsDefinitions['endTime']
 
-start_time_df = datetime.strptime(mintsDefinitions['startDate'], '%Y_%m_%d')
-end_time_df   = datetime.strptime(mintsDefinitions['endDate'], '%Y_%m_%d')+ timedelta(days=1)
+start_time_df = datetime.strptime(mintsDefinitions['startTime'], '%Y_%m_%d_%H_%M_%S')
+end_time_df   = datetime.strptime(mintsDefinitions['endTime'], '%Y_%m_%d_%H_%M_%S')
 
-varUsed   = 'pm2_5_IPS7100'
+varUsed   = mintsDefinitions['varUsed']
 
 
 # Create an empty DataFrame to store the merged data
@@ -48,7 +48,7 @@ merged_df = pd.DataFrame()
 for nodeID in nodeIDs:
     print("========================NODES========================")
     print("Reading node data for node "+ nodeID)
-    file_path       = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startDate +"-" +endDate + '_resampled_'+resampleTime+'.pkl'
+    file_path       = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startTime +"-" +endTime + '_resampled_'+resampleTime+'.pkl'
     directory_path = os.path.dirname(file_path)
 
     if os.path.exists(file_path):
@@ -57,8 +57,8 @@ for nodeID in nodeIDs:
             df_mints = pickle.load(file)
 
         color_column = varUsed
-        map_center = [32.992451667, -96.757813333]
-        m = folium.Map(location=map_center, zoom_start=14)
+        map_center = [32.967407, -96.703391]
+        m = folium.Map(location=map_center, zoom_start=20)
 
         color_scale = folium.LinearColormap(
                         colors=['yellow', 'red'],
@@ -67,7 +67,7 @@ for nodeID in nodeIDs:
                         )
         
         # Create a feature group for the markers
-        marker_group = folium.FeatureGroup(name='PM 2.5')
+        marker_group = folium.FeatureGroup(name= mintsDefinitions['varLabel'])
         
         for index, row in df_mints.iterrows():
             latitude, longitude, varUsedNow = row['latitudeCoordinate_GPSGPGGA2'], row['longitudeCoordinate_GPSGPGGA2'], row[varUsed]
@@ -91,7 +91,7 @@ for nodeID in nodeIDs:
 
         folium.LayerControl().add_to(m)
 
-        file_path = dataFolderParent + "/plots/surveplots/" + nodeID +  "/" +nodeID + "_" +startDate +"-" +endDate + '_surveyPlot_'+resampleTime+'.html'
+        file_path = dataFolderParent + "/plots/surveplots/" + nodeID +  "/" +nodeID + "_" + varUsed + "_"+ startTime +"-" +endTime + '_surveyPlot_' +resampleTime+'.html'
 
         directory_path = os.path.dirname(file_path)
 
@@ -100,4 +100,5 @@ for nodeID in nodeIDs:
             os.makedirs(directory_path)
 
         # Save the map to an HTML file
-        m.save(dataFolderParent + "/plots/surveplots/" + nodeID +  "/" +nodeID + "_" +startDate +"-" +endDate + '_surveyPlot_'+resampleTime+'.html')
+        # m.save(dataFolderParent + "/plots/surveplots/" + nodeID +  "/" +nodeID + "_" + varUsed + "_" +startTime +"-" +endTime + '_surveyPlot_'+resampleTime+'.html')
+        m.save(file_path)

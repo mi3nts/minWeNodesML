@@ -23,11 +23,14 @@ print("MINTS")
 print()
 
 resampleTime = mintsDefinitions['resampleTime']
-startDate = mintsDefinitions['startDate']
-endDate   = mintsDefinitions['endDate']
+# startDate = mintsDefinitions['startDate']
+# endDate   = mintsDefinitions['endDate']
+startTime = mintsDefinitions['startTime']
+endTime    = mintsDefinitions['endTime']
 
-start_time_df = datetime.strptime(mintsDefinitions['startDate'], '%Y_%m_%d')
-end_time_df   = datetime.strptime(mintsDefinitions['endDate'], '%Y_%m_%d')+ timedelta(days=1)
+
+start_time_df = datetime.strptime(mintsDefinitions['startTime'],'%Y_%m_%d_%H_%M_%S')
+end_time_df   = datetime.strptime(mintsDefinitions['endTime']  ,'%Y_%m_%d_%H_%M_%S')
 
 
 # Create an empty DataFrame to store the merged data
@@ -57,7 +60,7 @@ columns_to_keep =[  'pc0_1_IPS7100', 'pc0_3_IPS7100', 'pc0_5_IPS7100',
 for nodeID in nodeIDs:
     print("========================NODES========================")
     print("Reading node data for node "+ nodeID)
-    file_path      = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startDate +"-" +endDate + '.pkl'
+    file_path      = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startTime +"-" +endTime + '.pkl'
     directory_path = os.path.dirname(file_path)
 
     if os.path.exists(file_path):
@@ -65,25 +68,24 @@ for nodeID in nodeIDs:
         with open(file_path, 'rb') as file:
             df_mints = pickle.load(file)
             print(df_mints)
-         
+            # display(df.to_string())
+            # with pd.option_context('display.max_rows', None,
+            #            'display.max_columns', None,
+            #            'display.precision', 3,
+            #            ):
+            #     print(df_mints)
             columns_exist = all(column in df_mints.columns for column in columns_to_keep)
 
             # Print the result
             if columns_exist:
                 print("All listed columns exist in the DataFrame.")
                 df_mints  = df_mints [columns_to_keep]
-                print(df_mints.to_csv('lk.csv'))
-                # Print the resampled DataFrame
-                contains_string = df_mints.applymap(lambda x: isinstance(x, str))
-                df_mints = df_mints[~contains_string.any(axis=1)]
+                df_mints = df_mints.apply(pd.to_numeric, errors='coerce')
+                df_mints[columns_to_keep] = df_mints[columns_to_keep].apply(pd.to_numeric)
                 df_mints = df_mints.resample(resampleTime).mean()
-                # print(df_mints)
-                
-                df_mints  =  df_mints.dropna(how='any')
-
-
+                df_mints  =  df_mints.dropna()
                 if (df_mints.shape[0] >0):
-                    file_path      = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startDate +"-" +endDate + '_resampled_'+resampleTime+'.pkl'
+                    file_path      = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startTime +"-" +endTime + '_resampled_'+resampleTime+'.pkl'
                     directory_path = os.path.dirname(file_path)
 
                     # Create the directory if it doesn't exist

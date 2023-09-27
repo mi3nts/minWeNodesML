@@ -22,11 +22,13 @@ print()
 
 
 resampleTime = mintsDefinitions['resampleTime']
-startDate    = mintsDefinitions['startDate']
-endDate      = mintsDefinitions['endDate']
+# startDate    = mintsDefinitions['startDate']
+# endDate      = mintsDefinitions['endDate']
+startTime    = mintsDefinitions['startTime']
+endTime      = mintsDefinitions['endTime']
 
-start_time_df = datetime.strptime(mintsDefinitions['startDate'], '%Y_%m_%d')
-end_time_df   = datetime.strptime(mintsDefinitions['endDate'], '%Y_%m_%d')+ timedelta(days=1)
+start_time_df = datetime.strptime(mintsDefinitions['startTime'], '%Y_%m_%d_%H_%M_%S')
+end_time_df   = datetime.strptime(mintsDefinitions['endTime']  , '%Y_%m_%d_%H_%M_%S')
 
 
 # Create an empty DataFrame to store the merged data
@@ -59,6 +61,7 @@ for nodeID in nodeIDs:
             # Add the string to column names except for the excluded column
             temp_df.columns = [col + string_to_add if col != exclude_column else col for col in temp_df.columns]
             # print(temp_df)
+            # print(temp_df.to_string)
             # temp_df = temp_df.resample('1S').sum()
             dfs.append(temp_df)
             
@@ -73,11 +76,14 @@ for nodeID in nodeIDs:
         merged_df = merged_df[(merged_df['dateTime'] >=  start_time_df) & (merged_df['dateTime'] <= end_time_df)]
         merged_df.set_index('dateTime', inplace=True)
         print(merged_df)
+       
+        # print(merged_df.to_string())
         # print(merged_df.columns)
 
 
 
-        file_path      = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startDate +"-" +endDate + '.pkl'
+        file_path         = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startTime +"-" +endTime + '.pkl'
+        file_path_csv     = dataFolderParent + "/mergedPickles/" + nodeID +  "/" +nodeID + "_" +startTime +"-" +endTime + '.csv'
         directory_path = os.path.dirname(file_path)
 
         # Create the directory if it doesn't exist
@@ -85,7 +91,7 @@ for nodeID in nodeIDs:
             os.makedirs(directory_path)
              
         merged_df.to_pickle(file_path)
-
+        merged_df.to_csv(file_path_csv)
    
 
     else:

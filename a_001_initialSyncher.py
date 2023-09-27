@@ -18,9 +18,18 @@ sensorIDs          = mintsDefinitions['sensorIDs']
 print()
 print("MINTS")
 print()
- 
-startDate = datetime.strptime(mintsDefinitions['startDate'], '%Y_%m_%d')
-endDate = datetime.strptime(mintsDefinitions['endDate'], '%Y_%m_%d')
+#  
+# startDate    = mintsDefinitions['startDate']
+# endDate      = mintsDefinitions['endDate']
+# startTime    = mintsDefinitions['startTime']
+# endTime      = mintsDefinitions['endTime']
+
+startDate = datetime.strptime(mintsDefinitions['startTime'], '%Y_%m_%d')
+endDate   = datetime.strptime(mintsDefinitions['endTime'], '%Y_%m_%d')
+
+startTime =  datetime.strptime(mintsDefinitions['startTime'], '%Y_%m_%d_%H_%M_%S')
+endTime   = datetime.strptime(mintsDefinitions['endTime']  , '%Y_%m_%d_%H_%M_%S')
+
 
 delta      = timedelta(days=1)
 
