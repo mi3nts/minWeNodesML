@@ -1,0 +1,67 @@
+dataFolder : "/Users/lakitha/mintsData/raw"
+dataFolderMqtt : "/Users/lakitha/mintsData/rawMqtt"
+dataFolderParent : "/Users/lakitha/mintsData"
+
+
+resampleTime : "5S"
+
+nodeIDs:
+  - nodeID: e45f018020e9
+    nodeName: "Mints_Wearable_Node_V5_01"
+  - nodeID: e45f018020cb
+    nodeName: "Mints_Wearable_Node_V5_02"
+  - nodeID: e45f018020c7
+    nodeName: "Mints_Wearable_Node_V5_03"
+  - nodeID: e45f017b9a66
+    nodeName: "Mints_Wearable_Node_V5_04"
+  - nodeID: e45f01802105
+    nodeName: "Mints_Wearable_Node_V5_05"
+  - nodeID: e45f017b9205
+    nodeName: "Mints_Wearable_Node_V5_06"
+  - nodeID: e45f014e9af1
+    nodeName: "Mints_Wearable_Node_V5_07"
+  - nodeID: e45f0149bde4
+    nodeName: "Mints_Wearable_Node_V5_08"
+  - nodeID: d83add3fa727
+    nodeName: "Mints_Wearable_Node_V5_09"
+  - nodeID: d83add3f5ee7
+    nodeName: "Mints_Wearable_Node_V5_10"
+  - nodeID: e45f015559ff
+    nodeName: "Mints_Wearable_Node_V5_11"
+  - nodeID: e45f01583a58
+    nodeName: "Mints_Wearable_Node_V5_12"
+  - nodeID: e45f01585573
+    nodeName: "Mints_Wearable_Node_V5_13" 
+  - nodeID: e45f015a5de0
+    nodeName: "Mints_Wearable_Node_V5_14"  
+  - nodeID: d83add3f5f1f
+    nodeName: "Mints_Wearable_Node_V5_15"
+
+varUsed   : ['pm0_1_IPS7100','pm0_3_IPS7100','pm0_5_IPS7100','pm1_0_IPS7100','pm2_5_IPS7100','pm5_0_IPS7100','pm10_0_IPS7100']
+varLabel  : ['PM 0.1','PM 0.3','PM 0.5','PM 1.0','PM 2.5','PM 5.0','PM 10']
+
+startTime: "2023_09_26_12_20_00"
+endTime: "2023_09_26_13_38_00"
+
+
+sensorIDs:
+  - IPS7100
+  - IPS7100CNR
+  - BME280
+  - BME688CNR
+  - SCD30
+  - SCD30V2
+  - AS7265X
+  - MWBR001
+  - GPGGAPL
+  - GPRMCPL
+  - MBCLR001
+  - MBCLR002  
+  - GPSGPGGA2
+  - GPSGPRMC2
+  - GPSGPGGA2
+  - GPSGPRMC2
+  - MacAD
+
+
+
